@@ -27,6 +27,7 @@ jobs:
 
       - name: test
         run: |
+          pip install -U pytest
           pip install -U ddtrace
           DD_ENV=ci DD_SERVICE=my-python-app pytest --ddtrace
           
