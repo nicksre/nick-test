@@ -22,6 +22,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Datadog Agent
+        uses: DataDog/agent-github-action@v1
+        with:
+          api_key: ${{ secrets.DD_API_KEY }}
+      - run: |
+          make test
+          pip install -U ddtrace
+          DD_ENV=ci DD_SERVICE=my-python-app pytest --ddtrace
+      
+      
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
