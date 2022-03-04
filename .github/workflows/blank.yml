@@ -18,11 +18,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: datadog/agent-github-action@v1
+      - name: Datadog Agent
+        uses: datadog/agent-github-action@v1
         with:
             api_key: ${{ secrets.DD_API_KEY }}      
+      - run: make test
+      
       - uses: actions/checkout@v2
-
       - name: test
         run: |
           pip install -U pytest
