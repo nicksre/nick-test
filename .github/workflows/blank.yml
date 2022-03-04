@@ -1,34 +1,46 @@
-name: CI
+variables:
+  DD_API_KEY: $DD_API_KEY
+  DD_INSIDE_CI: "true"
+  DD_HOSTNAME: "none"
+  DD_AGENT_HOST: "datadog-agent"
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+test:
+  services:
+    - name: gcr.io/datadoghq/agent:latest
+  script:
+    - make test
 
-  workflow_dispatch:
+# name: CI
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
 
-    steps:
-      - name: Datadog Agent
-        uses: datadog/agent-github-action@v1
-        with:
-            api_key: ${{ secrets.DD_API_KEY }}      
+#   workflow_dispatch:
 
-      - uses: actions/checkout@v2
-      - name: test
-        run: |
-          pip install -U pytest
-          pip install -U ddtrace
-          DD_ENV=ci DD_SERVICE=NICK-TEST pytest --ddtrace
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Datadog Agent
+#         uses: datadog/agent-github-action@v1
+#         with:
+#             api_key: ${{ secrets.DD_API_KEY }}      
+
+#       - uses: actions/checkout@v2
+#       - name: test
+#         run: |
+#           pip install -U pytest
+#           pip install -U ddtrace
+#           DD_ENV=ci DD_SERVICE=NICK-TEST pytest --ddtrace
           
-      - name: Run a one-line script
-        run: echo Hello, world!
+#       - name: Run a one-line script
+#         run: echo Hello, world!
 
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+#       - name: Run a multi-line script
+#         run: |
+#           echo Add other actions to build,
+#           echo test, and deploy your project.
