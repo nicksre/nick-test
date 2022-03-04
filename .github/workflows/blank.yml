@@ -2,6 +2,7 @@ name: Test Code
 on: [push]
 jobs:
   test:
+    runs-on: gcr.io/datadoghq/agent:latest
     steps:
       - uses: datadog/agent-github-action@v1
         with:
