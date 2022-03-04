@@ -1,14 +1,13 @@
-variables:
-  DD_API_KEY: $DD_API_KEY
-  DD_INSIDE_CI: "true"
-  DD_HOSTNAME: "none"
-  DD_AGENT_HOST: "datadog-agent"
-
-test:
-  services:
-    - name: gcr.io/datadoghq/agent:latest
-  script:
-    - make test
+name: Test Code
+on: [push]
+jobs:
+  test:
+    steps:
+      - uses: datadog/agent-github-action@v1
+        with:
+            api_key: ${{ secrets.DD_API_KEY }}
+      - uses: actions/checkout@v2
+      - run: make tests
 
 # name: CI
 
