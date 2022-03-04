@@ -22,19 +22,22 @@ jobs:
         uses: datadog/agent-github-action@v1
         with:
             api_key: ${{ secrets.DD_API_KEY }}      
-      - run: make test
-      
-      - uses: actions/checkout@v2
-      - name: test
-        run: |
+      - run: |
           pip install -U pytest
           pip install -U ddtrace
           DD_ENV=ci DD_SERVICE=NICK-TEST pytest --ddtrace
-          
-      - name: Run a one-line script
-        run: echo Hello, world!
 
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      # - uses: actions/checkout@v2
+      # - name: test
+      #   run: |
+      #     pip install -U pytest
+      #     pip install -U ddtrace
+      #     DD_ENV=ci DD_SERVICE=NICK-TEST pytest --ddtrace
+          
+      # - name: Run a one-line script
+      #   run: echo Hello, world!
+
+      # - name: Run a multi-line script
+      #   run: |
+      #     echo Add other actions to build,
+      #     echo test, and deploy your project.
