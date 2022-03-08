@@ -25,6 +25,19 @@ jobs:
           pip install -U pytest
           pip install -U ddtrace
           DD_ENV=ci DD_SERVICE=NICK-TEST pytest --ddtrace
+
+      - name: Build count
+        uses: masci/datadog@v1
+        with:
+          api-key: ${{ secrets.DATADOG_API_KEY }}
+          metrics: |
+            - type: "count"
+              name: "test.runs.count"
+              value: 1.0
+              host: ${{ github.repository_owner }}
+              tags:
+                - "project:${{ github.repository }}"
+                - "branch:${{ github.head_ref }}"
           
       - name: Run a one-line script
         run: echo Hello, world!
