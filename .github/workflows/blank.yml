@@ -40,11 +40,11 @@ jobs:
                 - "project:${{ github.repository }}"
                 - "branch:${{ github.head_ref }}"
 
-      - name: Datadog
+      - name: Events
         if: failure()
         uses: masci/datadog@v1
         with:
-          api-key: ${{ secrets.DATADOG_API_KEY }}
+          api-key: ${{ secrets.DD_API_KEY }}
           api-url: https://us3.datadoghq.com
           events: |
             - title: "Failed building Foo"
