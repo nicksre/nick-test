@@ -29,7 +29,7 @@ jobs:
       - name: Build count
         uses: masci/datadog@v1
         with:
-          api-key: ${{ secrets.DATADOG_API_KEY }}
+          api-key:  ${{ secrets.DD_API_KEY }}
           metrics: |
             - type: "count"
               name: "test.runs.count"
