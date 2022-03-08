@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Datadog Agent
-        uses: datadog/agent-github-action@v1
+        uses: DataDog/agent-github-action@v1
         with:
             api_key: ${{ secrets.DD_API_KEY }}
             datadog_site: "us3.datadoghq.com"
