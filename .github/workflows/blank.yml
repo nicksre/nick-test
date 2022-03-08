@@ -39,11 +39,17 @@ jobs:
               tags:
                 - "project:${{ github.repository }}"
                 - "branch:${{ github.head_ref }}"
-          
-      - name: Run a one-line script
-        run: echo Hello, world!
 
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: Datadog
+        if: failure()
+        uses: masci/datadog@v1
+        with:
+          api-key: ${{ secrets.DATADOG_API_KEY }}
+          api-url: https://us3.datadoghq.com
+          events: |
+            - title: "Failed building Foo"
+              text: "Branch ${{ github.head_ref }} failed to build"
+              alert_type: "error"
+              host: ${{ github.repository_owner }}
+              tags:
+                - "project:${{ github.repository }}"
