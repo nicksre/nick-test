@@ -23,7 +23,7 @@ jobs:
 
       - id: b
         name: Build
-        run: echo ${{steps.a.outputs.json}}
+        run: echo ${{steps.a.outputs.test}}
 
       # - uses: actions/checkout@v2
       # - id: c
