@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Datadog Agent
+      - id: datadog-agent
         uses: DataDog/agent-github-action@v1
         with:
             api_key: ${{ secrets.DD_API_KEY }}
@@ -24,7 +24,7 @@ jobs:
           # echo "Build"
           # sleep 10
           # echo "Build Finished"
-          echo ${{steps.*.outputs}}
+          echo ${{steps.datadog-agent.conclusion}}
 
       - uses: actions/checkout@v2
       - name: test
