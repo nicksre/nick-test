@@ -15,49 +15,50 @@ jobs:
     steps:
       - id: a
         name: Datadog Agent
-        uses: DataDog/agent-github-action@v1
-        with:
-            api_key: ${{ secrets.DD_API_KEY }}
-            datadog_site: "us3.datadoghq.com"
+        # uses: DataDog/agent-github-action@v1
+        # with:
+        #     api_key: ${{ secrets.DD_API_KEY }}
+        #     datadog_site: "us3.datadoghq.com"
+        run: echo "Hello World!"
 
       - id: b
         name: Build
-        run: echo ${{steps.a.outputs}}
+        run: echo ${{steps.a.outputs.*}}
 
-      - uses: actions/checkout@v2
-      - name: Test
-        id: c
-        run: |
-          pip install -U pytest
-          pip install -U ddtrace
-          DD_ENV=ci DD_SERVICE=NICK-TEST pytest --ddtrace
+      # - uses: actions/checkout@v2
+      # - id: c
+      #   name: Test
+      #   run: |
+      #     pip install -U pytest
+      #     pip install -U ddtrace
+      #     DD_ENV=ci DD_SERVICE=NICK-TEST pytest --ddtrace
 
-      - id: d
-        name: Count
-        uses: masci/datadog@v1
-        with:
-          api-key:  ${{ secrets.DD_API_KEY }}
-          api-url: https://us3.datadoghq.com
-          metrics: |
-            - type: "count"
-              name: "test.runs.count"
-              value: 1.0
-              host: ${{ github.repository_owner }}
-              tags:
-                - "project:${{ github.repository }}"
-                - "branch:${{ github.head_ref }}"
+      # - id: d
+      #   name: Count
+      #   uses: masci/datadog@v1
+      #   with:
+      #     api-key:  ${{ secrets.DD_API_KEY }}
+      #     api-url: https://us3.datadoghq.com
+      #     metrics: |
+      #       - type: "count"
+      #         name: "test.runs.count"
+      #         value: 1.0
+      #         host: ${{ github.repository_owner }}
+      #         tags:
+      #           - "project:${{ github.repository }}"
+      #           - "branch:${{ github.head_ref }}"
 
-      - id: e
-        name: Events
-        if: failure()
-        uses: masci/datadog@v1
-        with:
-          api-key: ${{ secrets.DD_API_KEY }}
-          api-url: https://us3.datadoghq.com
-          events: |
-            - title: "Failed building Foo"
-              text: "Branch ${{ github.head_ref }} failed to build"
-              alert_type: "error"
-              host: ${{ github.repository_owner }}
-              tags:
-                - "project:${{ github.repository }}"
+      # - id: e
+      #   name: Events
+      #   if: failure()
+      #   uses: masci/datadog@v1
+      #   with:
+      #     api-key: ${{ secrets.DD_API_KEY }}
+      #     api-url: https://us3.datadoghq.com
+      #     events: |
+      #       - title: "Failed building Foo"
+      #         text: "Branch ${{ github.head_ref }} failed to build"
+      #         alert_type: "error"
+      #         host: ${{ github.repository_owner }}
+      #         tags:
+      #           - "project:${{ github.repository }}"
