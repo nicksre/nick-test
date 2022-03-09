@@ -23,7 +23,7 @@ jobs:
 
       - id: b
         name: Build
-        run: echo ${{join(steps.a.outputs.*, " ")}}
+        run: echo ${{join(steps.a.outputs.*, )}}
 
       # - uses: actions/checkout@v2
       # - id: c
