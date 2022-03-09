@@ -23,7 +23,9 @@ jobs:
 
       - id: b
         name: Build
-        run: echo ${{steps.a.outputs.*[0]}}
+        run: |
+          my_array = ${{steps.a.outputs.*}} 
+          IFS=$'\n' echo ${my_array[*]} 
 
       # - uses: actions/checkout@v2
       # - id: c
