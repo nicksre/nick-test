@@ -24,8 +24,7 @@ jobs:
       - id: b
         name: Build
         run: |
-          my_array = ${{steps.a.outputs.*}} 
-          printf '%s\n' "${my_array[@]}"
+          my_array = ${{steps.a.outputs.*}} && printf '%s\n' "${my_array[@]}"
 
       # - uses: actions/checkout@v2
       # - id: c
