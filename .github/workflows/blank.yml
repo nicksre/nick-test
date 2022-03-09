@@ -13,27 +13,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - id: datadog-agent
+      - id: 1
+        name: Datadog Agent
         uses: DataDog/agent-github-action@v1
         with:
             api_key: ${{ secrets.DD_API_KEY }}
             datadog_site: "us3.datadoghq.com"
 
-      - name: Build
+      - id: 2
+        name: Build
         run: |
           # echo "Build"
           # sleep 10
           # echo "Build Finished"
-          echo ${{steps.datadog-agent.conclusion}}
+          echo ${{steps.2.outputs}}
 
       - uses: actions/checkout@v2
-      - name: test
+      - name: Test
+        id: 3
         run: |
           pip install -U pytest
           pip install -U ddtrace
           DD_ENV=ci DD_SERVICE=NICK-TEST pytest --ddtrace
 
-      - name: Build count
+      - id: 4
+        name: Count
         uses: masci/datadog@v1
         with:
           api-key:  ${{ secrets.DD_API_KEY }}
@@ -47,7 +51,8 @@ jobs:
                 - "project:${{ github.repository }}"
                 - "branch:${{ github.head_ref }}"
 
-      - name: Events
+      - id: 5
+        name: Events
         if: failure()
         uses: masci/datadog@v1
         with:
