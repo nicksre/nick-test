@@ -22,11 +22,7 @@ jobs:
 
       - id: 2
         name: Build
-        run: |
-          # echo "Build"
-          # sleep 10
-          # echo "Build Finished"
-          echo ${{steps.2.outputs}}
+        run: echo ${{steps.2.outputs}}
 
       - uses: actions/checkout@v2
       - name: Test
