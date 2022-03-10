@@ -20,6 +20,7 @@ jobs:
         #     api_key: ${{ secrets.DD_API_KEY }}
         #     datadog_site: "us3.datadoghq.com"
         run: echo "Hello World!"
+      
       - uses: actions/checkout@v2
 
       - id: b
@@ -29,42 +30,35 @@ jobs:
           sleep 5
 
       - id: c
-        name: Build 
+        name: Test
         run: |
-          curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | jq ".jobs[0].steps[3]" >> out.json
-          cat out.json
+          pip install -U pytest
+          pip install -U ddtrace
+          DD_ENV=ci DD_SERVICE=NICK-TEST pytest --ddtrace
 
       - id: d
-        name: Print value
+        name: Test Time 
         run: |
-          pwd && ls
+          curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | jq ".jobs[0].steps[4]" >> out.json
+          cat out.json
           a=$(jq ".started_at" out.json)
           b=$(jq ".completed_at" out.json)
-          echo $a ; echo $b
-          python3 timediff.py $a $b
+          echo "test-time=$(python3 timediff.py $a $b) >> $GITHUB_ENV"
 
-      # - uses: actions/checkout@v2
-      # - id: c
-      #   name: Test
-      #   run: |
-      #     pip install -U pytest
-      #     pip install -U ddtrace
-      #     DD_ENV=ci DD_SERVICE=NICK-TEST pytest --ddtrace
-
-      # - id: d
-      #   name: Count
-      #   uses: masci/datadog@v1
-      #   with:
-      #     api-key:  ${{ secrets.DD_API_KEY }}
-      #     api-url: https://us3.datadoghq.com
-      #     metrics: |
-      #       - type: "count"
-      #         name: "test.runs.count"
-      #         value: 1.0
-      #         host: ${{ github.repository_owner }}
-      #         tags:
-      #           - "project:${{ github.repository }}"
-      #           - "branch:${{ github.head_ref }}"
+      - id: f
+        name: Test Time
+        uses: masci/datadog@v1
+        with:
+          api-key:  ${{ secrets.DD_API_KEY }}
+          api-url: https://us3.datadoghq.com
+          metrics: |
+            - type: "count"
+              name: "test.runs.time"
+              value: ${{python3 timediff.py $a $b}}
+              host: ${{ github.repository_owner }}
+              tags:
+                - "project:${{ github.repository }}"
+                - "branch:${{ github.head_ref }}"
 
       # - id: e
       #   name: Events
