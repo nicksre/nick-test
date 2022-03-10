@@ -24,7 +24,7 @@ jobs:
       - id: b
         name: Build
         # run: echo ${{steps.a.outputs.test}}
-        run: echo '${{ toJSON(github) }}'
+        run: echo '${{ github.run_id}}'
 
       # - uses: actions/checkout@v2
       # - id: c
