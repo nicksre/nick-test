@@ -24,7 +24,7 @@ jobs:
       - id: b
         name: Build
         # run: echo ${{steps.a.outputs.test}}
-        run: echo '${{ github.run_id}}'
+        run: curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs
 
       # - uses: actions/checkout@v2
       # - id: c
