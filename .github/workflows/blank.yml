@@ -38,6 +38,7 @@ jobs:
           pwd && ls
           a=$(jq ".started_at" out.json)
           b=$(jq ".completed_at" out.json)
+          echo $a ; echo $b
           python3 timediff.py $a $b
 
       # - uses: actions/checkout@v2
