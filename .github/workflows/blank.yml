@@ -30,9 +30,7 @@ jobs:
 
       - id: c
         name: Build 
-        run: curl -H "Accept:application/vnd.github.v3+json" \
-        https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | \
-        jq ".jobs[0].steps[1]" >> out.json
+        run: curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | jq ".jobs[0].steps[1]" >> out.json
 
       - id: c
         name: Print value
