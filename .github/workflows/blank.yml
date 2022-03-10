@@ -39,10 +39,11 @@ jobs:
       - id: d
         name: Collect Test Time 
         run: |
-          curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | jq ".jobs[0].steps[3]" >> out.json
+          curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | jq ".jobs[0].steps[4]" >> out.json
           a=$(jq ".started_at" out.json)
           b=$(jq ".completed_at" out.json)
           echo "test-time=$(python3 timediff.py $a $b)" >> $GITHUB_ENV
+          cat out.json
           
 
       - id: z
