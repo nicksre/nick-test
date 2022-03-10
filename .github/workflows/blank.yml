@@ -24,7 +24,9 @@ jobs:
       - id: b
         name: Build
         # run: echo ${{steps.a.outputs.test}}
-        run: curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs
+        run: |
+          sudo apt-get install jq
+          curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | jq ".jobs[0].steps[1].started_at"
 
       # - uses: actions/checkout@v2
       # - id: c
