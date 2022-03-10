@@ -25,7 +25,7 @@ jobs:
         name: Build
         run: |
           sudo apt-get install jq dateutils
-          curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | jq ".jobs[0].steps[1] >> out.json
+          curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | jq ".jobs[0].steps[1]" >> out.json
           # echo 'started_at= $(curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | jq ".jobs[0].steps[1].started_at")' >> $GITHUB_ENV
           # echo 'completed_at= $(curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | jq ".jobs[0].steps[1].completed_at")' >> $GITHUB_ENV
       
