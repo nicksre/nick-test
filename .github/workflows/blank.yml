@@ -44,22 +44,26 @@ jobs:
           b=$(jq ".completed_at" out.json)
           cat out.json
           echo "test-time=$(python3 timediff.py $a $b) >> $GITHUB_ENV"
-          echo ${{env.test-time}}
+          
 
-      - id: f
-        name: Metrics Test Time
-        uses: masci/datadog@v1
-        with:
-          api-key:  ${{ secrets.DD_API_KEY }}
-          api-url: https://us3.datadoghq.com
-          metrics: |
-            - type: "count"
-              name: "test.runs.time"
-              value: ${{env.test-time}}
-              host: ${{ github.repository_owner }}
-              tags:
-                - "project:${{ github.repository }}"
-                - "branch:${{ github.head_ref }}"
+      - id: z
+        name: env
+        run: echo ${{env.test-time}}
+
+      # - id: f
+      #   name: Metrics Test Time
+      #   uses: masci/datadog@v1
+      #   with:
+      #     api-key:  ${{ secrets.DD_API_KEY }}
+      #     api-url: https://us3.datadoghq.com
+      #     metrics: |
+      #       - type: "count"
+      #         name: "test.runs.time"
+      #         value: ${{env.test-time}}
+      #         host: ${{ github.repository_owner }}
+      #         tags:
+      #           - "project:${{ github.repository }}"
+      #           - "branch:${{ github.head_ref }}"
 
       # - id: e
       #   name: Events
