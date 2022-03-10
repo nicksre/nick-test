@@ -44,6 +44,7 @@ jobs:
           b=$(jq ".completed_at" out.json)
           cat out.json
           echo "test-time=$(python3 timediff.py $a $b) >> $GITHUB_ENV"
+          echo ${{env.test-time}}
 
       - id: f
         name: Metrics Test Time
