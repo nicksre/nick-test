@@ -54,7 +54,7 @@ jobs:
           metrics: |
             - type: "count"
               name: "test.runs.time"
-              value: ${{python3 timediff.py $a $b}}
+              value: ${{env.test-time}}
               host: ${{ github.repository_owner }}
               tags:
                 - "project:${{ github.repository }}"
