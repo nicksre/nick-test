@@ -20,15 +20,14 @@ jobs:
         #     api_key: ${{ secrets.DD_API_KEY }}
         #     datadog_site: "us3.datadoghq.com"
         run: echo "Hello World!"
+      - uses: actions/checkout@v2
 
       - id: b
         name: Build
         run: |
           sudo apt-get install jq python3.8
           curl -H "Accept:application/vnd.github.v3+json" https://api.github.com/repos/nicksre/nick-test/actions/runs/${{ github.run_id}}/jobs | jq ".jobs[0].steps[1]" >> out.json
-      
-      - uses: actions/checkout@v2
-
+          
       - id: c
         name: Print value
         run: |
