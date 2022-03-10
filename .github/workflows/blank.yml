@@ -32,7 +32,7 @@ jobs:
         name: print value
         run: |
           echo "${{env.started_at}}"
-          echo "${{completed_at}}"
+          echo "${{env.completed_at}}"
 
       # - uses: actions/checkout@v2
       # - id: c
