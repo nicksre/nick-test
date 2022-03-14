@@ -70,7 +70,7 @@ jobs:
                 - "project:${{ github.repository }}"
 
       - id: f
-        name: Datadog
+        name: Service Check
         if: failure()
         uses: masci/datadog@v1
         with:
