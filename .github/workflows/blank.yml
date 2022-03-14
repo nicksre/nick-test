@@ -19,7 +19,6 @@ jobs:
         with:
             api_key: ${{ secrets.DD_API_KEY }}
             datadog_site: "us3.datadoghq.com"
-        run: echo "Hello World!"
       
       - uses: actions/checkout@v2
 
