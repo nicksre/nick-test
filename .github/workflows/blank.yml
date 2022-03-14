@@ -15,10 +15,10 @@ jobs:
     steps:
       - id: a
         name: Datadog Agent
-        # uses: DataDog/agent-github-action@v1
-        # with:
-        #     api_key: ${{ secrets.DD_API_KEY }}
-        #     datadog_site: "us3.datadoghq.com"
+        uses: DataDog/agent-github-action@v1
+        with:
+            api_key: ${{ secrets.DD_API_KEY }}
+            datadog_site: "us3.datadoghq.com"
         run: echo "Hello World!"
       
       - uses: actions/checkout@v2
@@ -30,7 +30,6 @@ jobs:
           pip install -U ddtrace
           DD_ENV=ci DD_SERVICE=NICK-TEST pytest --ddtrace
 
-
       - id: c
         name: Collect Test Time 
         run: |
@@ -39,14 +38,9 @@ jobs:
           a=$(jq ".started_at" out.json)
           b=$(jq ".completed_at" out.json)
           echo "test-time=$(python3 timediff.py $a $b)" >> $GITHUB_ENV
-          cat out.json
-          
+          cat out.json         
 
-      - id: z
-        name: env
-        run: echo ${{env.test-time}}
-
-      - id: f
+      - id: d
         name: Metrics Test Time
         uses: masci/datadog@v1
         with:
@@ -61,17 +55,30 @@ jobs:
                 - "project:${{ github.repository }}"
                 - "branch:${{ github.head_ref }}"
 
-      # - id: e
-      #   name: Events
-      #   if: failure()
-      #   uses: masci/datadog@v1
-      #   with:
-      #     api-key: ${{ secrets.DD_API_KEY }}
-      #     api-url: https://us3.datadoghq.com
-      #     events: |
-      #       - title: "Failed building Foo"
-      #         text: "Branch ${{ github.head_ref }} failed to build"
-      #         alert_type: "error"
-      #         host: ${{ github.repository_owner }}
-      #         tags:
-      #           - "project:${{ github.repository }}"
+      - id: e
+        name: Events
+        if: failure()
+        uses: masci/datadog@v1
+        with:
+          api-key: ${{ secrets.DD_API_KEY }}
+          api-url: https://us3.datadoghq.com
+          events: |
+            - title: "Failed building Foo"
+              text: "Branch ${{ github.head_ref }} failed to build"
+              alert_type: "error"
+              host: ${{ github.repository_owner }}
+              tags:
+                - "project:${{ github.repository }}"
+      - id: f
+      - name: Datadog
+        if: failure()
+        uses: masci/datadog@v1
+        with:
+          api-key: ${{ secrets.DD_API_KEY }}
+          service-checks: |
+            - check: "app.ok"
+              message: "Branch ${{ github.head_ref }} failed to build"
+              status: 0
+              host_name: ${{ github.repository_owner }}
+              tags:
+                - "project:${{ github.repository }}"
