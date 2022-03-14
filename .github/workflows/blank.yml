@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  my-test-job:
     runs-on: ubuntu-latest
 
     steps:
@@ -92,7 +92,7 @@ jobs:
           api-key: ${{ secrets.DD_API_KEY }}
           api-url: https://us3.datadoghq.com
           logs: |
-            - ddsource: "nginx"
+            - ddsource: "github"
               ddtags: "env:staging,version:5.1"
               hostname: "i-012345678"
               message: "{\"message\":\"2019-11-19T14:37:58,995 ERROR [process.name][20081] Hello World\", \"level\":\"error\"}"
