@@ -68,8 +68,9 @@ jobs:
               host: ${{ github.repository_owner }}
               tags:
                 - "project:${{ github.repository }}"
+
       - id: f
-      - name: Datadog
+        name: Datadog
         if: failure()
         uses: masci/datadog@v1
         with:
